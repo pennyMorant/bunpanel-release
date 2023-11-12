@@ -116,8 +116,28 @@ EOL
     echo "Supervisor配置文件已创建：$supervisor_config"
 }
 
+create_db() {
+    read -p "请输入数据库名称：" DB_NAME
+    read -p "请输入数据库用户名：" DB_USER
+    read -p "请输入数据库密码：" DB_PASSWORD
+    echo
+
+    psql -U postgres -c "CREATE DATABASE $DB_NAME;"
+    psql -U postgres -c "CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD';"
+    psql -U postgres -c "ALTER USER $DB_USER WITH SUPERUSER;"
+    echo "数据库和用户创建成功，并已授予全部权限。"
+}
+
 
 start_app() {
+    read -p "请输入授权码: " LICENSE_KEY
+    echo
+
+    ENV_FILE="/var/www/bun/.env"
+    sed -i "s/DB_USERNAME=.*/DB_USERNAME=$DB_USER/" "$ENV_FILE"
+    sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=$DB_PASSWORD/" "$ENV_FILE"
+    sed -i "s/DB_DATABASE=.*/DB_DATABASE=$DB_NAME/" "$ENV_FILE"
+    sed -i "s/APP_LICENSE=.*/LICENSE_KEY=$LICENSE_KEY/" "$ENV_FILE"
     supervisorctl reread
     supervisorctl update
     supervisorctl start bunpanel
