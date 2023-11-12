@@ -84,6 +84,7 @@ extract_zip_file() {
     fi
 
     unzip -q "$ZIP_FILE" -d "$DEST_DIR"
+    cp $DEST_DIR/.env.example $DEST_DIR/.env
     rm "$ZIP_FILE"
     if [ $? -ne 0 ]; then
         echo "解压失败：$ZIP_FILE"
