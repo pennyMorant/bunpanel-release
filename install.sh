@@ -103,7 +103,7 @@ create_supervisor_config() {
 
     cat > "$supervisor_config" <<EOL
 [program:bunpanel]
-directory=/var/www/bun/
+directory=/var/www/bun
 command=/var/www/bun/$bunpanel_command
 user=root
 autostart=true
