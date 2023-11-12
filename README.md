@@ -1,5 +1,6 @@
 # 安装教程
 此教程基于1panel
+服务端需要授权使用，如需测试请在此BOT申请测试授权码https://t.me/bunpanel_bot
 # 安装前端
 1. 打开1panel，进入商店安装 openresty
 2. 创建网站，选择静态网站
