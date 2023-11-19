@@ -16,7 +16,7 @@
 ### 进入服务器ssh，创建文件夹，并把服务端程序下载到此目录，并解压
     mkdir /var/www/bun
     cp .env.example .env
-### 编辑 .env DB_USERNAME=数据库账户 DB_PASSWORD=数据库密码 APP_LICENSE=授权码 TRUST_PROXY=true
+### 编辑 .env DB_USERNAME=数据库账户 DB_PASSWORD=数据库密码 APP_LICENSE=授权码
 ### 回到1panel,创建网站选择反向代理。这里域名填写准备好的服务端域名（授权域名），代理地址输入: 127.0.0.1:3000
 ### 回到ssh,进入目录 /var/www/bun, 然后执行 ./bunpanel-x64
 ### 然后就可以看到输出的日志，红色部分为管理员账号和密码
