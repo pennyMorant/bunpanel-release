@@ -19,7 +19,7 @@ Same as the above steps, but the domain is the prepared admin frontend domain.
 ### Enter the server via SSH, create a folder, download the server program to this directory, and unzip it.
     mkdir /var/www/bun
     cp .env.example .env
-### Edit .env DB_USERNAME=database user DB_PASSWORD=database password APP_LICENSE=authorization code TRUST_PROXY=true
+### Edit .env DB_USERNAME=database user DB_PASSWORD=database password APP_LICENSE=authorization code
 ### Go back to 1panel, create a website, choose reverse proxy. Here, enter the prepared server domain (authorization domain) as the domain, and enter: 127.0.0.1:3000 as the proxy address.
 ### Go back to SSH, enter the directory /var/www/bun, then execute ./bunpanel-x64.
 ### Now you can see the output log, the red part is the admin username and password.
