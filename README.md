@@ -1,4 +1,4 @@
-# Installation Guide | [中文教程](https://github.com/pennyMorant/bunpanel-release/blob/dev/README_ZH.md)
+# Installation Guide | [中文教程](https://github.com/pennyMorant/bunpanel-release/blob/dev/README_ZH.md) | [Demo](https://bunpanel.com)
 This tutorial is based on 1panel. The server requires authorization for use. If you need to test, please apply for a test authorization code from this BOT: [https://t.me/bunpanel_bot](https://t.me/bunpanel_bot)
 
 # Environment
@@ -7,10 +7,11 @@ This tutorial is based on 1panel. The server requires authorization for use. If 
 
 # Install User Frontend
 1. Create a website, select a static website, and enter the prepared user frontend domain.
-2. Go to the website root directory, then enter the index directory and delete index.html.
-3. Upload the frontend source code to this directory and unzip it.
-4. Open config.json, modify apiUrl: http://server domain (authorization domain).
-5. Now you should be able to access the frontend page.
+2. enable website config gzip, edit config: gzip_static on;
+3. Go to the website root directory, then enter the index directory and delete index.html.
+4. Upload the frontend source code to this directory and unzip it.
+5. Open config.json, modify apiUrl: http://server domain (authorization domain).
+6. Now you should be able to access the frontend page.
 
 # Install Admin Frontend
 Same as the above steps, but the domain is the prepared admin frontend domain.
