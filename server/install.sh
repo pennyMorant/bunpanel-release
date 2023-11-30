@@ -34,9 +34,7 @@ arch=$(arch)
 if [[ $arch == "x86_64" || $arch == "x64" || $arch == "amd64" ]]; then
     arch="64"
 elif [[ $arch == "aarch64" || $arch == "arm64" ]]; then
-    arch="arm64-v8a"
-elif [[ $arch == "s390x" ]]; then
-    arch="s390x"
+    arch="arm64"
 else
     arch="64"
     echo -e "${red}检测架构失败，使用默认架构: ${arch}${plain}"
@@ -109,13 +107,13 @@ install_bunserver() {
 	cd /usr/local/bunserver/
 
     if  [ $# == 0 ] ;then
-        last_version=$(curl -Ls "https://api.github.com/repos/pennyMorant/bunpanelServer/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        last_version=$(curl -Ls "https://api.github.com/repos/pennyMorant/bunpanel-release/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [[ ! -n "$last_version" ]]; then
             echo -e "${red}检测 bunserver 版本失败，可能是超出 Github API 限制，请稍后再试，或手动指定 bunserver 版本安装${plain}"
             exit 1
         fi
         echo -e "检测到 bunserver 最新版本：${last_version}，开始安装"
-        wget -q -N --no-check-certificate -O /usr/local/bunserver/bunserver-linux.zip https://github.com/pennyMorant/bunpanelServer/releases/download/${last_version}/bunserver-linux-${arch}.zip
+        wget -q -N --no-check-certificate -O /usr/local/bunserver/bunserver-linux.zip https://github.com/pennyMorant/bunpanel-release/releases/download/${last_version}/bunserver-linux-${arch}.zip
         if [[ $? -ne 0 ]]; then
             echo -e "${red}下载 bunserver 失败，请确保你的服务器能够下载 Github 的文件${plain}"
             exit 1
@@ -126,7 +124,7 @@ install_bunserver() {
 	else
 	    last_version="v"$1
 	fi
-        url="https://github.com/pennyMorant/bunpanelServer/releases/download/${last_version}/bunserver-linux-${arch}.zip"
+        url="https://github.com/pennyMorant/bunpanel-release/releases/download/${last_version}/bunserver-linux-${arch}.zip"
         echo -e "开始安装 bunserver ${last_version}"
         wget -q -N --no-check-certificate -O /usr/local/bunserver/bunserver-linux.zip ${url}
         if [[ $? -ne 0 ]]; then
@@ -153,7 +151,7 @@ install_bunserver() {
     if [[ ! -f /etc/bunserver/config.yml ]]; then
         cp config.yml /etc/bunserver/
         echo -e ""
-        echo -e "全新安装，请先参看教程：https://github.com/pennyMorant/bunpanelServer，配置必要的内容"
+        echo -e "全新安装，请先参看教程：https://github.com/pennyMorant/bunpanel-release，配置必要的内容"
     else
         systemctl start bunserver
         sleep 2
@@ -162,7 +160,7 @@ install_bunserver() {
         if [[ $? == 0 ]]; then
             echo -e "${green}bunserver 重启成功${plain}"
         else
-            echo -e "${red}bunserver 可能启动失败，请稍后使用 bunserver log 查看日志信息，若无法启动，则可能更改了配置格式，请前往 wiki 查看：https://github.com/pennyMorant/bunpanelServer/wiki${plain}"
+            echo -e "${red}bunserver 可能启动失败，请稍后使用 bunserver log 查看日志信息，若无法启动，则可能更改了配置格式，请前往 wiki 查看：https://github.com/pennyMorant/bunpanel-release/wiki${plain}"
         fi
     fi
 
