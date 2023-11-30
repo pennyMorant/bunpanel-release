@@ -183,12 +183,10 @@ install_bunserver() {
     fi
     curl -o /usr/bin/bunserver -Ls https://raw.githubusercontent.com/pennyMorant/bunpanel-release/master/server/bunserver.sh
     chmod +x /usr/bin/bunserver
-    ln -s /usr/bin/bunserver /usr/bin/xrayr # 小写兼容
-    chmod +x /usr/bin/xrayr
     cd $cur_dir
     rm -f install.sh
     echo -e ""
-    echo "bunserver 管理脚本使用方法 (兼容使用xrayr执行，大小写不敏感): "
+    echo "bunserver 管理脚本使用方法 (兼容使用bunserver执行，大小写不敏感): "
     echo "------------------------------------------"
     echo "bunserver                    - 显示管理菜单 (功能更多)"
     echo "bunserver start              - 启动 bunserver"
