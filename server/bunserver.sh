@@ -70,7 +70,7 @@ confirm() {
 }
 
 confirm_restart() {
-    confirm "是否重启XrayR" "y"
+    confirm "是否重启bunserver" "y"
     if [[ $? == 0 ]]; then
         restart
     else
@@ -84,7 +84,7 @@ before_show_menu() {
 }
 
 install() {
-    bash <(curl -Ls https://raw.githubusercontent.com/zeropanel/XrayR-release/master/install.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/pennyMorant/bunpanel-release/dev/server/install.sh)
     if [[ $? == 0 ]]; then
         if [[ $# == 0 ]]; then
             start
@@ -108,9 +108,9 @@ update() {
 #        fi
 #        return 0
 #    fi
-    bash <(curl -Ls https://raw.githubusercontent.com/zeropanel/XrayR-release/master/install.sh) $version
+    bash <(curl -Ls https://raw.githubusercontent.com/pennyMorant/bunpanel-release/dev/server/install.sh) $version
     if [[ $? == 0 ]]; then
-        echo -e "${green}更新完成，已自动重启 XrayR，请使用 XrayR log 查看运行日志${plain}"
+        echo -e "${green}更新完成，已自动重启 bunserver，请使用 bunserver log 查看运行日志${plain}"
         exit
     fi
 
@@ -120,16 +120,16 @@ update() {
 }
 
 config() {
-    echo "XrayR在修改配置后会自动尝试重启"
-    vi /etc/XrayR/config.yml
+    echo "bunserver在修改配置后会自动尝试重启"
+    vi /etc/bunserver/config.yml
     sleep 2
     check_status
     case $? in
         0)
-            echo -e "XrayR状态: ${green}已运行${plain}"
+            echo -e "bunserver状态: ${green}已运行${plain}"
             ;;
         1)
-            echo -e "检测到您未启动XrayR或XrayR自动重启失败，是否查看日志？[Y/n]" && echo
+            echo -e "检测到您未启动bunserver或bunserver自动重启失败，是否查看日志？[Y/n]" && echo
             read -e -p "(默认: y):" yn
             [[ -z ${yn} ]] && yn="y"
             if [[ ${yn} == [Yy] ]]; then
@@ -137,28 +137,28 @@ config() {
             fi
             ;;
         2)
-            echo -e "XrayR状态: ${red}未安装${plain}"
+            echo -e "bunserver状态: ${red}未安装${plain}"
     esac
 }
 
 uninstall() {
-    confirm "确定要卸载 XrayR 吗?" "n"
+    confirm "确定要卸载 bunserver 吗?" "n"
     if [[ $? != 0 ]]; then
         if [[ $# == 0 ]]; then
             show_menu
         fi
         return 0
     fi
-    systemctl stop XrayR
-    systemctl disable XrayR
-    rm /etc/systemd/system/XrayR.service -f
+    systemctl stop bunserver
+    systemctl disable bunserver
+    rm /etc/systemd/system/bunserver.service -f
     systemctl daemon-reload
     systemctl reset-failed
-    rm /etc/XrayR/ -rf
-    rm /usr/local/XrayR/ -rf
+    rm /etc/bunserver/ -rf
+    rm /usr/local/bunserver/ -rf
 
     echo ""
-    echo -e "卸载成功，如果你想删除此脚本，则退出脚本后运行 ${green}rm /usr/bin/XrayR -f${plain} 进行删除"
+    echo -e "卸载成功，如果你想删除此脚本，则退出脚本后运行 ${green}rm /usr/bin/bunserver -f${plain} 进行删除"
     echo ""
 
     if [[ $# == 0 ]]; then
@@ -170,15 +170,15 @@ start() {
     check_status
     if [[ $? == 0 ]]; then
         echo ""
-        echo -e "${green}XrayR已运行，无需再次启动，如需重启请选择重启${plain}"
+        echo -e "${green}bunserver已运行，无需再次启动，如需重启请选择重启${plain}"
     else
-        systemctl start XrayR
+        systemctl start bunserver
         sleep 2
         check_status
         if [[ $? == 0 ]]; then
-            echo -e "${green}XrayR 启动成功，请使用 XrayR log 查看运行日志${plain}"
+            echo -e "${green}bunserver 启动成功，请使用 bunserver log 查看运行日志${plain}"
         else
-            echo -e "${red}XrayR可能启动失败，请稍后使用 XrayR log 查看日志信息${plain}"
+            echo -e "${red}bunserver可能启动失败，请稍后使用 bunserver log 查看日志信息${plain}"
         fi
     fi
 
@@ -188,13 +188,13 @@ start() {
 }
 
 stop() {
-    systemctl stop XrayR
+    systemctl stop bunserver
     sleep 2
     check_status
     if [[ $? == 1 ]]; then
-        echo -e "${green}XrayR 停止成功${plain}"
+        echo -e "${green}bunserver 停止成功${plain}"
     else
-        echo -e "${red}XrayR停止失败，可能是因为停止时间超过了两秒，请稍后查看日志信息${plain}"
+        echo -e "${red}bunserver停止失败，可能是因为停止时间超过了两秒，请稍后查看日志信息${plain}"
     fi
 
     if [[ $# == 0 ]]; then
@@ -203,13 +203,13 @@ stop() {
 }
 
 restart() {
-    systemctl restart XrayR
+    systemctl restart bunserver
     sleep 2
     check_status
     if [[ $? == 0 ]]; then
-        echo -e "${green}XrayR 重启成功，请使用 XrayR log 查看运行日志${plain}"
+        echo -e "${green}bunserver 重启成功，请使用 bunserver log 查看运行日志${plain}"
     else
-        echo -e "${red}XrayR可能启动失败，请稍后使用 XrayR log 查看日志信息${plain}"
+        echo -e "${red}bunserver可能启动失败，请稍后使用 bunserver log 查看日志信息${plain}"
     fi
     if [[ $# == 0 ]]; then
         before_show_menu
@@ -217,18 +217,18 @@ restart() {
 }
 
 status() {
-    systemctl status XrayR --no-pager -l
+    systemctl status bunserver --no-pager -l
     if [[ $# == 0 ]]; then
         before_show_menu
     fi
 }
 
 enable() {
-    systemctl enable XrayR
+    systemctl enable bunserver
     if [[ $? == 0 ]]; then
-        echo -e "${green}XrayR 设置开机自启成功${plain}"
+        echo -e "${green}bunserver 设置开机自启成功${plain}"
     else
-        echo -e "${red}XrayR 设置开机自启失败${plain}"
+        echo -e "${red}bunserver 设置开机自启失败${plain}"
     fi
 
     if [[ $# == 0 ]]; then
@@ -237,11 +237,11 @@ enable() {
 }
 
 disable() {
-    systemctl disable XrayR
+    systemctl disable bunserver
     if [[ $? == 0 ]]; then
-        echo -e "${green}XrayR 取消开机自启成功${plain}"
+        echo -e "${green}bunserver 取消开机自启成功${plain}"
     else
-        echo -e "${red}XrayR 取消开机自启失败${plain}"
+        echo -e "${red}bunserver 取消开机自启失败${plain}"
     fi
 
     if [[ $# == 0 ]]; then
@@ -250,7 +250,7 @@ disable() {
 }
 
 show_log() {
-    journalctl -u XrayR.service -e --no-pager -f
+    journalctl -u bunserver.service -e --no-pager -f
     if [[ $# == 0 ]]; then
         before_show_menu
     fi
@@ -270,23 +270,23 @@ install_bbr() {
 }
 
 update_shell() {
-    wget -O /usr/bin/XrayR -N --no-check-certificate https://raw.githubusercontent.com/zeropanel/XrayR-release/master/XrayR.sh
+    wget -O /usr/bin/bunserver -N --no-check-certificate https://raw.githubusercontent.com/pennyMorant/bunpanel-release/dev/server/bunserver.sh
     if [[ $? != 0 ]]; then
         echo ""
         echo -e "${red}下载脚本失败，请检查本机能否连接 Github${plain}"
         before_show_menu
     else
-        chmod +x /usr/bin/XrayR
+        chmod +x /usr/bin/bunserver
         echo -e "${green}升级脚本成功，请重新运行脚本${plain}" && exit 0
     fi
 }
 
 # 0: running, 1: not running, 2: not installed
 check_status() {
-    if [[ ! -f /etc/systemd/system/XrayR.service ]]; then
+    if [[ ! -f /etc/systemd/system/bunserver.service ]]; then
         return 2
     fi
-    temp=$(systemctl status XrayR | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+    temp=$(systemctl status bunserver | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
     if [[ x"${temp}" == x"running" ]]; then
         return 0
     else
@@ -295,7 +295,7 @@ check_status() {
 }
 
 check_enabled() {
-    temp=$(systemctl is-enabled XrayR)
+    temp=$(systemctl is-enabled bunserver)
     if [[ x"${temp}" == x"enabled" ]]; then
         return 0
     else
@@ -307,7 +307,7 @@ check_uninstall() {
     check_status
     if [[ $? != 2 ]]; then
         echo ""
-        echo -e "${red}XrayR已安装，请不要重复安装${plain}"
+        echo -e "${red}bunserver已安装，请不要重复安装${plain}"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
@@ -321,7 +321,7 @@ check_install() {
     check_status
     if [[ $? == 2 ]]; then
         echo ""
-        echo -e "${red}请先安装XrayR${plain}"
+        echo -e "${red}请先安装bunserver${plain}"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
@@ -335,15 +335,15 @@ show_status() {
     check_status
     case $? in
         0)
-            echo -e "XrayR状态: ${green}已运行${plain}"
+            echo -e "bunserver状态: ${green}已运行${plain}"
             show_enable_status
             ;;
         1)
-            echo -e "XrayR状态: ${yellow}未运行${plain}"
+            echo -e "bunserver状态: ${yellow}未运行${plain}"
             show_enable_status
             ;;
         2)
-            echo -e "XrayR状态: ${red}未安装${plain}"
+            echo -e "bunserver状态: ${red}未安装${plain}"
     esac
 }
 
@@ -356,9 +356,9 @@ show_enable_status() {
     fi
 }
 
-show_XrayR_version() {
-    echo -n "XrayR 版本："
-    /usr/local/XrayR/XrayR -version
+show_bunserver_version() {
+    echo -n "bunserver 版本："
+    /usr/local/bunserver/bunserver -version
     echo ""
     if [[ $# == 0 ]]; then
         before_show_menu
@@ -366,45 +366,45 @@ show_XrayR_version() {
 }
 
 show_usage() {
-    echo "XrayR 管理脚本使用方法: "
+    echo "bunserver 管理脚本使用方法: "
     echo "------------------------------------------"
-    echo "XrayR              - 显示管理菜单 (功能更多)"
-    echo "XrayR start        - 启动 XrayR"
-    echo "XrayR stop         - 停止 XrayR"
-    echo "XrayR restart      - 重启 XrayR"
-    echo "XrayR status       - 查看 XrayR 状态"
-    echo "XrayR enable       - 设置 XrayR 开机自启"
-    echo "XrayR disable      - 取消 XrayR 开机自启"
-    echo "XrayR log          - 查看 XrayR 日志"
-    echo "XrayR update       - 更新 XrayR"
-    echo "XrayR update x.x.x - 更新 XrayR 指定版本"
-    echo "XrayR install      - 安装 XrayR"
-    echo "XrayR uninstall    - 卸载 XrayR"
-    echo "XrayR version      - 查看 XrayR 版本"
+    echo "bunserver              - 显示管理菜单 (功能更多)"
+    echo "bunserver start        - 启动 bunserver"
+    echo "bunserver stop         - 停止 bunserver"
+    echo "bunserver restart      - 重启 bunserver"
+    echo "bunserver status       - 查看 bunserver 状态"
+    echo "bunserver enable       - 设置 bunserver 开机自启"
+    echo "bunserver disable      - 取消 bunserver 开机自启"
+    echo "bunserver log          - 查看 bunserver 日志"
+    echo "bunserver update       - 更新 bunserver"
+    echo "bunserver update x.x.x - 更新 bunserver 指定版本"
+    echo "bunserver install      - 安装 bunserver"
+    echo "bunserver uninstall    - 卸载 bunserver"
+    echo "bunserver version      - 查看 bunserver 版本"
     echo "------------------------------------------"
 }
 
 show_menu() {
     echo -e "
-  ${green}XrayR 后端管理脚本，${plain}${red}不适用于docker${plain}
---- https://github.com/zeropanel/XrayR ---
+  ${green}bunserver 后端管理脚本，${plain}${red}不适用于docker${plain}
+--- https://github.com/zeropanel/bunserver ---
   ${green}0.${plain} 修改配置
 ————————————————
-  ${green}1.${plain} 安装 XrayR
-  ${green}2.${plain} 更新 XrayR
-  ${green}3.${plain} 卸载 XrayR
+  ${green}1.${plain} 安装 bunserver
+  ${green}2.${plain} 更新 bunserver
+  ${green}3.${plain} 卸载 bunserver
 ————————————————
-  ${green}4.${plain} 启动 XrayR
-  ${green}5.${plain} 停止 XrayR
-  ${green}6.${plain} 重启 XrayR
-  ${green}7.${plain} 查看 XrayR 状态
-  ${green}8.${plain} 查看 XrayR 日志
+  ${green}4.${plain} 启动 bunserver
+  ${green}5.${plain} 停止 bunserver
+  ${green}6.${plain} 重启 bunserver
+  ${green}7.${plain} 查看 bunserver 状态
+  ${green}8.${plain} 查看 bunserver 日志
 ————————————————
-  ${green}9.${plain} 设置 XrayR 开机自启
- ${green}10.${plain} 取消 XrayR 开机自启
+  ${green}9.${plain} 设置 bunserver 开机自启
+ ${green}10.${plain} 取消 bunserver 开机自启
 ————————————————
  ${green}11.${plain} 一键安装 bbr (最新内核)
- ${green}12.${plain} 查看 XrayR 版本 
+ ${green}12.${plain} 查看 bunserver 版本 
  ${green}13.${plain} 升级维护脚本
  "
  #后续更新可加入上方字符串中
@@ -436,7 +436,7 @@ show_menu() {
         ;;
         11) install_bbr
         ;;
-        12) check_install && show_XrayR_version
+        12) check_install && show_bunserver_version
         ;;
         13) update_shell
         ;;
@@ -470,7 +470,7 @@ if [[ $# > 0 ]]; then
         ;;
         "uninstall") check_install 0 && uninstall 0
         ;;
-        "version") check_install 0 && show_XrayR_version 0
+        "version") check_install 0 && show_bunserver_version 0
         ;;
         "update_shell") update_shell
         ;;
