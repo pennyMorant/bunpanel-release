@@ -32,11 +32,11 @@ fi
 arch=$(arch)
 
 if [[ $arch == "x86_64" || $arch == "x64" || $arch == "amd64" ]]; then
-    arch="x64"
+    arch="64"
 elif [[ $arch == "aarch64" || $arch == "arm64" ]]; then
     arch="arm64"
 else
-    arch="x64"
+    arch="64"
     echo -e "${red}检测架构失败，使用默认架构: ${arch}${plain}"
 fi
 
