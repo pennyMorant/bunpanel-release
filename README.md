@@ -41,3 +41,8 @@ Same as the above steps, but the domain is the prepared admin frontend domain.
     supervisorctl reread
     supervisorctl update
     supervisorctl start bunpanel
+
+# Install Server Backend
+
+    bash <(curl -Ls https://raw.githubusercontent.com/pennyMorant/bunpanel-release/dev/server/install.sh)
+

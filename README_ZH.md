@@ -37,3 +37,8 @@
     supervisorctl reread
     supervisorctl update
     supervisorctl start bunpanel
+
+# 安装节点后端
+
+    bash <(curl -Ls https://raw.githubusercontent.com/pennyMorant/bunpanel-release/dev/server/install.sh)
+
