@@ -1,4 +1,4 @@
-# Installation Guide | [中文教程](https://github.com/pennyMorant/bunpanel-release/blob/dev/README_ZH.md) | [Demo](https://bunpanel.com)
+# Installation Guide | [中文教程](https://github.com/pennyMorant/bunpanel-release/blob/dev/README_ZH.md) | [Demo](https://demo.bunpanel.com)
 This tutorial is based on 1panel. The server requires authorization for use. If you need to test, please apply for a test authorization code from this BOT: [https://t.me/bunpanel_bot](https://t.me/bunpanel_bot)
 
 # Environment

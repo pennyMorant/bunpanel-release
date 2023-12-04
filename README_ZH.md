@@ -1,4 +1,4 @@
-# 安装教程 | [Demo](https://bunpanel.com)
+# 安装教程 | [Demo](https://demo.bunpanel.com)
 此教程基于1panel
 服务端需要授权使用，如需测试请在此BOT申请测试授权码https://t.me/bunpanel_bot
 # 环境
