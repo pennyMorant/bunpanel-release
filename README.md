@@ -1,4 +1,12 @@
-# Installation Guide | [中文教程](https://github.com/pennyMorant/bunpanel-release/blob/dev/README_ZH.md) | [Demo](https://demo.bunpanel.com)
+# BunPanel Features
+* The server is implemented using nodejs
+* The front end uses vue3 + typescript + pinia + material design3
+* The server uses binary files to run and is easy to install.
+* Supports one-click installation of backend services
+* Support setting up reverse proxy service
+* More new features
+
+# Installation Guide | [中文教程](https://github.com/pennyMorant/bunpanel-release/blob/dev/README_ZH.md) | [Demo](https://demo.bunpanel.com) | [Telegram](https://t.me/bunpanel)
 This tutorial is based on 1panel. The server requires authorization for use. If you need to test, please apply for a test authorization code from this BOT: [https://t.me/bunpanel_bot](https://t.me/bunpanel_bot)
 
 # Environment
@@ -17,30 +25,16 @@ This tutorial is based on 1panel. The server requires authorization for use. If 
 Same as the above steps, but the domain is the prepared admin frontend domain.
 
 # Install Server
-### Enter the server via SSH, create a folder, download the server program to this directory, and unzip it.
-    mkdir /var/www/bun
-    cp .env.example .env
-### Edit .env DB_USERNAME=database user DB_PASSWORD=database password APP_LICENSE=authorization code
-### Go back to 1panel, create a website, choose reverse proxy. Here, enter the prepared server domain (authorization domain) as the domain, and enter: 127.0.0.1:3000 as the proxy address.
-### Go back to SSH, enter the directory /var/www/bun, then execute ./bunpanel-x64.
-### Now you can see the output log, the red part is the admin username and password.
-
-# Daemon Process
-    [program:bunpanel]
-    directory=/var/www/bun
-    command=/var/www/bun/bunpanel-x64
-    user=root
-    autostart=true
-    autorestart=true
-    numprocs=1
-    redirect_stderr=true
-    stdout_logfile=/var/log/supervisor/bunpanel.log
-### Copy the above code and execute the code.
-    vim /etc/supervisor/conf.d/bun.conf
-### Paste the copied code, save and exit. Then execute
-    supervisorctl reread
-    supervisorctl update
-    supervisorctl start bunpanel
+1. Create a website, select revers proxy, and enter the server domain
+2. go to the website root dirctory,then into index directory and upload server souce code
+3. `cp .env.example .env && vim .env`
+4. enter your database info, license
+5. go to Host->Supervisor, and create daemon process
+6. enter config for daemon process
+    * name: any string
+    * directory: your server source code directory
+    * command: npm run dev
+7. await start , then go to daemon process log. finding admin account info in log
 
 # Install Server Backend
 
