@@ -25,7 +25,7 @@
 6. 输入守护进程配置信息
     * name: 任何字符串
     * directory: 服务端代码根目录路径
-    * command: npm run dev
+    * command: /你的目录/bunserver 名字
 7. 等待启动，进入守护进程的日志，找到管理员账户信息。
 
 # 安装节点后端

@@ -33,7 +33,7 @@ Same as the above steps, but the domain is the prepared admin frontend domain.
 6. enter config for daemon process
     * name: any string
     * directory: your server source code directory
-    * command: npm run dev
+    * command: /your directory/bunserver name
 7. await start , then go to daemon process log. finding admin account info in log
 
 # Install Server Backend
